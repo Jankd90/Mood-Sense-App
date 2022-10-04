@@ -2,29 +2,22 @@ import time
 from datetime import datetime
 from flask import Flask, escape, request, render_template
 from influxdb import InfluxDBClient
-#from OpenSSL import SSL
-#context = SSL.Context(SSL.PROTOCOL_TLSv1_2)
-#context.use_privatekey_file('server.key')
-#context.use_certificate_file('server.crt') 
 import os
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
-SECRET_KEY = os.environ.get("SECRET_KEY")
-print(SECRET_KEY)
+HOST = os.environ.get("HOST")
+INFLUXDB = os.environ.get("INFLUXDB")
+print(INFLUXDB)
 app = Flask(__name__)
 
 @app.route('/')
-def hello():
-    name = request.args.get("name", "World")
-    return render_template("home.html")
-
-
-@app.route('/annotate')
 def annotate():
-    #name = request.args.get("name", "World")
-    return render_template("annotate.html", hostname=SECRET_KEY)
+    return render_template("annotate.html", hostname=HOST)
 
+@app.route('/en')
+def annotate_en():
+    return render_template("annotate-en.html", hostname=HOST)
 
 @app.route('/post')
 def post():
