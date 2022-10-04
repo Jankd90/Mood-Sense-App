@@ -14,7 +14,6 @@ app = Flask(__name__)
 @app.route('/')
 def annotate():
     return render_template("annotate.html", hostname=HOST)
-
 @app.route('/en')
 def annotate_en():
     return render_template("annotate-en.html", hostname=HOST)
@@ -22,7 +21,7 @@ def annotate_en():
 @app.route('/post')
 def post():
     value = request.args.get('button')
-    print(value)
+    #print(value)
 
     timestamp = int(time.time()*1000000000)
     #dt_object = datetime.fromtimestamp(timestamp)
@@ -39,10 +38,10 @@ def post():
         }
     }
     ]
-    print(timestamp)
-    print(value)
-    #client = InfluxDBClient('localhost', 8086, 'root', 'root', 'db1')
-    #client.write_points(json_body)
+    #print(timestamp)
+    #print(value)
+    client = InfluxDBClient(INFLUXDB, 8086, 'moodsense', 'MoodSense-Group2', 'homeassistant')
+    client.write_points(json_body)
     return f'Hello!'
 
 @app.route('/recording',methods = ['POST'])
