@@ -14,11 +14,33 @@
 
 2. **Install InfluxDB**
    - Download from [InfluxDB Downloads](https://dl.influxdata.com/influxdb/releases/influxdb3-core-3.5.0-windows_amd64.zip?_gl=1*190aor1*_gcl_aw*R0NMLjE3NjE4MTM4MzUuQ2owS0NRandtWXpJQmhDNkFSSXNBSEEzSWtUV1RvUzg3NEZoc0pwazFGSEV3Q09hX3MyTXp4UDBUdzdhT2hNc2R1OTVoUXhmbDU0VkN6UWFBaW5xRUFMd193Y0I.*_gcl_au*MTYxODg0NDk5My4xNzYxODEzODM1*_ga*NTk3MDU2NzQ2LjE3NjE4MTM4MzM.*_ga_CNWQ54SDD8*czE3NjE4MTM4MzIkbzEkZzEkdDE3NjE4MTQ5NTAkajYwJGwwJGgxMjQyNzg3MjYx)
-   - Start service:
-     ```powershell
-     net start influxdb
-     ```
-   - Access: [http://localhost:8086](http://localhost:8086)
+
+   - Extract the Files
+   Extract the archive to a folder, for example:
+   ```
+   C:\Program Files\InfluxData\influxdb3-core
+   ```
+   - Open PowerShell as Administrator
+   Press **Win + X → Windows PowerShell (Admin)**  
+   Then navigate to the folder:
+   ```powershell
+   cd "C:\Program Files\InfluxData\influxdb3-core"
+   ```
+   - Run the InfluxDB 3 Server
+   Start the server manually:
+   ```powershell
+   .\influxdb3.exe serve --node-id node01 --object-store=file --data-dir C:\InfluxData\influxdb-data
+   ```
+
+   - `--object-store=file` stores data locally on disk.  
+   - `--data-dir` defines the data location.
+
+   - Verify Installation
+   Check version:
+   ```powershell
+   .\influxdb3.exe --version
+   ```
+
 
 3. **Create Database (Bucket)**
    - Create a bucket, e.g., `mood_sense` in InfluxDB UI.
