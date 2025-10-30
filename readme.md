@@ -1,89 +1,94 @@
-<img src="icon.png" align="right"  style="height:10rem;"/>
+# MOOD Sense App (Windows & Raspbian Setup)
 
-# MOOD Sense App
+> Environmental sensor monitoring and annotation web app.
 
-> In this repo you can find all the building blocks for setting up monitoring with environmental sensors and starting an annotation app. 
+---
 
-## Prerequisits to start the project:
+## 1. Prerequisites
 
-1. Install InfluxDB:
+### 🪟 For Windows
 
-Thanks to https://simonhearne.com/
+1. **Install Python 3.10+**
+   - Download from [python.org/downloads](https://www.python.org/downloads/)
+   - Check “Add Python to PATH” during installation.
 
-    ```sh
-    wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add -
-    source /etc/os-release
-    echo "deb https://repos.influxdata.com/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
-    
-    sudo apt update && sudo apt install -y influxdb
+2. **Install InfluxDB 2.x**
+   - Download from [InfluxDB Downloads](https://portal.influxdata.com/downloads/)
+   - Start service:
+     ```powershell
+     net start influxdb
+     ```
+   - Access: [http://localhost:8086](http://localhost:8086)
 
-    sudo systemctl unmask influxdb.service
-    sudo systemctl start influxdb
-    sudo systemctl enable influxdb.service
+3. **Create Database (Bucket)**
+   - Create a bucket, e.g., `mood_sense` in InfluxDB UI.
 
-    ```
-2. Create a Database:
+4. **Install Dependencies**
+   ```powershell
+   pip install -r requirements.txt
+   ```
 
-To create a Database in influxDB, default Database name for the application is <db1>:
-```sh
-$ influx
-> CREATE DATABASE <database_name> [WITH [DURATION <duration>] [REPLICATION <n>] [SHARD DURATION <duration>] [NAME <retention-policy-name>]]
+5. **Set Environment Variables**
+   Create a `.env` file in the project root:
+   ```env
+   HOST=127.0.0.1
+   INFLUXDB=localhost
+   ```
+
+6. **(Optional) SSL Certificates**
+   ```powershell
+   openssl req -new -x509 -days 365 -nodes -out server.crt -keyout server.key
+   ```
+
+---
+
+### 🐧 For Raspbian
+
+1. **Install Python and dependencies**
+   ```bash
+   sudo apt update && sudo apt install python3 python3-pip libglib2.0-dev libssl-dev
+   pip3 install -r requirements.txt
+   ```
+
+2. **Install and start InfluxDB**
+   ```bash
+   wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+   source /etc/os-release
+   echo "deb https://repos.influxdata.com/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+   sudo apt update && sudo apt install -y influxdb
+   sudo systemctl enable --now influxdb
+   ```
+
+3. **Set .env file**
+   ```env
+   HOST=<raspberry_pi_ip>
+   INFLUXDB=localhost
+   ```
+
+---
+
+## 2. Running the Application
+
+### On Windows
+```powershell
+python annotation_app.py
 ```
-3. Install python3:
-```sh
-sudo apt update
-sudo apt install python3
-```
-4. Install dependencies:
-```sh
-$ sudo apt-get install python3-pip libglib2.0-dev
-$ pip3 install -r requirements.txt
-```
-5. Set the correct localhost:
-```sh
-hostname -I
-<copy the hostname in the .env file>
-```
-6. Create certificates for application
-```sh
-sudo apt-get install libssl-dev
-openssl genrsa 2048 > host.key
-chmod 400 host.key
-openssl req -new -x509 -nodes -sha256 -days 365 -key host.key -out host.cert
-```
 
-## Run both aplications
-
-1. Run server in terminal
-```sh
+### On Raspbian
+```bash
 python3 annotation_app.py
 ```
-2. Run BLE_central in terminal
-```sh
-python3 ble_central.py
-```
 
-## Optional, install Grafana
+Then open a browser to:  
+👉 [https://localhost:8100](https://localhost:8100) or [http://<raspberry_ip>:8100](http://<raspberry_ip>:8100)
 
-Thanks to https://simonhearne.com/
+---
 
-    ```sh
-    wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
-    echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee /etc/apt/sources.list.d/grafana.list
-    sudo apt update && sudo apt install -y grafana
-    sudo systemctl unmask grafana-server.service
-    sudo systemctl start grafana-server
-    sudo systemctl enable grafana-server.service
-    ```
+## 3. Troubleshooting
+- If SSL not configured, remove `ssl_context` in the last line of `annotation_app.py`.
+- Ensure InfluxDB is running and accessible at the host/port defined in `.env`.
+- On Windows, avoid using `bluepy`—not supported. Only the annotation app works natively.
 
-## Install docker
-    ```sh
-    curl -fsSL https://get.docker.com -o get-docker.sh
-    sudo bash get-docker.sh
-    touch Dockerfile
-    touch .dockerignore
-    docker build .
-    ```
+---
 
-
-
+**Author:** Adapted setup by ChatGPT for Windows + Raspbian compatibility.
