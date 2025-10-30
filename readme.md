@@ -31,8 +31,8 @@
 5. **Set Environment Variables**
    Create a `.env` file in the project root:
    ```env
-   HOST=127.0.0.1
-   INFLUXDB=localhost
+   HOST=https://192.168.0.101:8100/
+   INFLUXDB=192.168.0.101
    ```
 
 6. **(Optional) SSL Certificates**
@@ -90,5 +90,3 @@ Then open a browser to:
 - On Windows, avoid using `bluepy`—not supported. Only the annotation app works natively.
 
 ---
-
-**Author:** Adapted setup by ChatGPT for Windows + Raspbian compatibility.
