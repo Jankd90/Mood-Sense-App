@@ -40,7 +40,7 @@ def post():
     ]
     #print(timestamp)
     #print(value)
-    client = InfluxDBClient(INFLUXDB, 8086, 'moodsense', 'MoodSense-Group2', 'homeassistant')
+    client = InfluxDBClient(INFLUXDB, 8181, 'moodsense', 'MoodSense-Group2', 'homeassistant')
     client.write_points(json_body)
     return f'Hello!'
 
@@ -54,5 +54,5 @@ def record():
     return f'Hello!'
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', debug=True, port=8100, ssl_context=('server.crt', 'server.key'))
+    app.run('0.0.0.0', debug=True, port=8100)
     #app.run('0.0.0.0', debug=True, port=8100, ssl_context=('host.cert', 'host.key'))
