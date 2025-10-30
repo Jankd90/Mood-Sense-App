@@ -29,7 +29,7 @@
    ```
 
 5. **Set Environment Variables**
-   Create a `.env` file in the project root:
+   Create a `.env` file in the project root e.g.:
    ```env
    HOST=https://192.168.0.101:8100/
    INFLUXDB=192.168.0.101
@@ -59,10 +59,10 @@
    sudo systemctl enable --now influxdb
    ```
 
-3. **Set .env file**
+3. **Set .env file e.g.**
    ```env
-   HOST=<raspberry_pi_ip>
-   INFLUXDB=localhost
+   HOST=https://192.168.0.101:8100/
+   INFLUXDB=192.168.0.101
    ```
 
 ---
