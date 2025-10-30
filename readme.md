@@ -12,8 +12,8 @@
    - Download from [python.org/downloads](https://www.python.org/downloads/)
    - Check “Add Python to PATH” during installation.
 
-2. **Install InfluxDB 2.x**
-   - Download from [InfluxDB Downloads](https://portal.influxdata.com/downloads/)
+2. **Install InfluxDB**
+   - Download from [InfluxDB Downloads](https://dl.influxdata.com/influxdb/releases/influxdb3-core-3.5.0-windows_amd64.zip?_gl=1*190aor1*_gcl_aw*R0NMLjE3NjE4MTM4MzUuQ2owS0NRandtWXpJQmhDNkFSSXNBSEEzSWtUV1RvUzg3NEZoc0pwazFGSEV3Q09hX3MyTXp4UDBUdzdhT2hNc2R1OTVoUXhmbDU0VkN6UWFBaW5xRUFMd193Y0I.*_gcl_au*MTYxODg0NDk5My4xNzYxODEzODM1*_ga*NTk3MDU2NzQ2LjE3NjE4MTM4MzM.*_ga_CNWQ54SDD8*czE3NjE4MTM4MzIkbzEkZzEkdDE3NjE4MTQ5NTAkajYwJGwwJGgxMjQyNzg3MjYx)
    - Start service:
      ```powershell
      net start influxdb
