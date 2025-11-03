@@ -59,7 +59,7 @@
 
 6. **(Optional) SSL Certificates**
    ```powershell
-   openssl req -new -x509 -days 365 -nodes -out server.crt -keyout server.key
+   openssl req -x509 -newkey rsa:4096 -keyout host.key -out host.cert -days 365 -nodes
    ```
 
 ---
