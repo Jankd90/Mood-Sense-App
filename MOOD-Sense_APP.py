@@ -2,10 +2,13 @@ import time
 import sqlite3
 import socket
 from flask import Flask, request, render_template
+from datetime import datetime          
 
 app = Flask(__name__)
 DB_PATH = "annotations.db"
 
+# add annotations (dictionary)
+from annotations_dict import *
 
 # --- Database setup ----------------------------------------------------------
 def init_db():
@@ -51,6 +54,39 @@ def annotate_en():
     host_url = f"http://{get_local_ip()}:8100/"
     return render_template("annotate-en.html", hostname=host_url)
 
+@app.route('/dashboard')
+def dashboard():
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    c.execute("""
+        SELECT id, ip, timestamp, value
+        FROM annotations
+        ORDER BY id DESC
+    """)
+    rows_db = c.fetchall()
+    conn.close()
+
+    rows = []
+    for r in rows_db:
+        ts_ns = int(r["timestamp"])
+        ts_sec = ts_ns / 1_000_000_000
+        dt = datetime.fromtimestamp(ts_sec)
+
+        code = r["value"]
+        label = EVENT_LABELS.get(code, f"(unknown: {code})")
+
+        rows.append({
+            "id": r["id"],
+            "ip": r["ip"],
+            # "mac": r["mac"],   # new
+            "date": dt.strftime("%Y-%m-%d"),
+            "time": dt.strftime("%H:%M:%S"),
+            "event_code": code,
+            "event_label": label,
+        })
+
+    return render_template("dashboard.html", rows=rows)
 
 @app.route('/post')
 def post():
