@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Annotation Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a.active {
+            text-decoration: underline;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 6px 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #f4f4f4;
+        }
+
+        tr:nth-child(even) {
+            background: #fafafa;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Simple "tabs" via links -->
+    <nav>
+        <a href="{{ url_for('annotate') }}">Annotate (NL)</a>
+        <a href="{{ url_for('annotate_en') }}">Annotate (EN)</a>
+        <a href="{{ url_for('dashboard') }}" class="active">Dashboard</a>
+    </nav>
+
+    <h1>Annotation Dashboard</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>IP</th>
+                <!-- <th>MAC</th> -->
+                <th>Date</th>
+                <th>Time</th>
+                <th>Event</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.ip }}</td>
+                <!-- <td>{{ row.mac }}</td> -->
+                <td>{{ row.date }}</td>
+                <td>{{ row.time }}</td>
+                <!-- <td>{{ row.event_code }}</td> -->
+                <td>{{ row.event_label }}</td> <!-- human readable -->
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>
